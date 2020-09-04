@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { WidgetTable, WidgetForm, SubscriptionInfoNotification } from './components';
+import { ToolHeader, WidgetTable, WidgetForm, SubscriptionInfoNotification } from './components';
 
 const APP_QUERY = gql`
   query App {
+    toolName @client
     widgets {
       id
       name
@@ -95,7 +96,12 @@ export class App extends React.Component {
                 });
               };
 
-              return <WidgetTable widgets={data.widgets} onDeleteWidget={deleteWidget} />;
+              return (
+              <React.Fragment>
+              <ToolHeader headerText={data.toolName} />
+              <WidgetTable widgets={data.widgets} onDeleteWidget={deleteWidget} />;
+              </React.Fragment>
+              )
             }}
           </Mutation>;
         }}
